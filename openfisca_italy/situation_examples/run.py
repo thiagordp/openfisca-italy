@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from openfisca_country_template import CountryTaxBenefitSystem
+from openfisca_italy import CountryTaxBenefitSystem
 from openfisca_core.simulation_builder import SimulationBuilder
 from . import couple
 
