@@ -1,4 +1,4 @@
-# OpenFisca Country-Template
+# OpenFisca Italy
 
 This repository helps you quickly set up and use your own OpenFisca country
 package.
