@@ -1,0 +1,48 @@
+# Test files describe situations and their expected outcomes
+# We can run this test on our command line using `openfisca-run-test tuir_income_tax.yaml`
+
+- name: Person earning 2000 in 2013-01
+  period: 2013-01
+  input:
+    salary: 2000
+    number_of_children: 2
+    income_type: employment
+  output:
+    tuir_income_tax: 0
+
+- name: Person earning 10000 in 2013-01
+  period: 2013-01
+  input:
+    salary: 10000
+    number_of_children: 6
+    income_type: pension
+  output:
+    tuir_income_tax: 0
+
+- name: Person earning 17000 in 2013-01
+  period: 2013-01
+  input:
+    salary: 17000
+    number_of_children: 2
+    income_type: real_estate
+  output:
+    tuir_income_tax: 4250
+
+
+- name: Person earning 30000 in 2013-01
+  period: 2013-01
+  input:
+    salary: 30000
+    number_of_children: 2
+    income_type: pension
+  output:
+    tuir_income_tax: 10500
+
+- name: Person earning 60000 in 2013-01
+  period: 2013-01
+  input:
+    salary: 60000
+    number_of_children: 2
+    income_type: others
+  output:
+    tuir_income_tax: 25800

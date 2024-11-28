@@ -1,0 +1,30 @@
+# The social_security_contribution is calculated with a marginal scale. Marginal scales are represented with a specific structure.
+description: TUIR income tax
+metadata:
+  threshold_unit: currency-EUR
+  rate_unit: /1
+brackets:
+- rate:
+    2010-01-01:
+      value: 0.23
+  threshold:
+    2010-01-01:
+      value: 0.0
+- rate:
+    2010-01-01:
+      value: 0.25
+  threshold:
+    2010-01-01:
+      value: 15000.0
+- rate:
+    2010-01-01:
+      value: 0.35
+  threshold:
+    2010-01-01:
+      value: 28000.0
+- rate:
+    2010-01-01:
+      value: 0.43
+  threshold:
+    2010-01-01:
+      value: 50000.0

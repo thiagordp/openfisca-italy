@@ -5,6 +5,7 @@
   period: 2013-01
   input:
     salary: 2000
+    income_type: employment
   output:
     social_security_contribution: 60
 

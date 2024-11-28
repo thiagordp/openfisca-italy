@@ -4,16 +4,64 @@ A variable is a property of an Entity such as a Person, a Household…
 
 See https://openfisca.org/doc/key-concepts/variables.html
 """
-
+import numpy as np
 # Import from numpy the what you need to apply on OpenFisca's population vectors
 # Import from openfisca-core the objects used to code the legislation in OpenFisca
 from numpy import maximum as max_
-
 from openfisca_core.periods import MONTH, YEAR
 from openfisca_core.variables import Variable
 
 # Import the Entities specifically defined for this tax and benefit system
 from openfisca_country_template.entities import Household, Person
+
+
+class tuir_income_tax(Variable):
+    value_type = float
+    entity = Person
+    definition_period = MONTH
+    label = "Income Tax from TUIR"
+    reference = (
+        "https://www.brocardi.it/testo-unico-imposte-redditi/titolo-i/capo-i/art11.html"
+    )
+
+    def formula(person, period, parameters):
+        """Social security contribution.
+
+        The social_security_contribution is computed according to a marginal scale.
+        """
+        salary = person("salary", period)
+        scale = parameters(period).taxes.tuir_income_tax
+
+        print("=" * 50)
+        print(f"-- Salary: {salary}")
+        print(f"-- TT: {parameters(period).taxes}")
+        print(f"-- Scale: {scale}")
+        print(f"Children: {person("number_of_children", period)}")
+        print(type(scale))
+        print(f"-- Calc: {scale.calc(salary)}")
+        tax_base = np.array([salary])
+        print()
+        print(f"==={scale.marginal_rates(tax_base)}")
+        print(f"==== --- {scale.marginal_rates(tax_base)[0] * salary[0]}")
+
+
+        default_income_tax = scale.marginal_rates(tax_base)[0] * salary[0]
+
+        final_income = default_income_tax
+        income_type = person("income_type", period)
+        IncomeType = (
+            income_type.possible_values
+        )
+        employment = income_type == IncomeType.employment
+
+        if employment:
+            final_income = max(0, default_income_tax - 1800)
+
+        number_of_children = person("number_of_children", period).sum()
+        if number_of_children > 6:
+            final_income = 0
+
+        return final_income
 
 
 class income_tax(Variable):
@@ -30,6 +78,7 @@ class income_tax(Variable):
 
         The formula to compute the income tax for a given person at a given period
         """
+
         return person("salary", period) * parameters(period).taxes.income_tax_rate
 
 
